@@ -1,121 +1,234 @@
 %!TEX TS-program = xelatex
 \documentclass[12pt, a4paper, oneside]{article}
 
-\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}  % пакеты для математики
+% пакеты для математики
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}  
+\mathtoolsset{showonlyrefs=true}  % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
 
 \usepackage[english, russian]{babel} % выбор языка для документа
-\usepackage[utf8]{inputenc} % задание utf8 кодировки исходного tex файла
-\usepackage[X2,T2A]{fontenc}        % кодировка
+% \usepackage[utf8]{inputenc}          % utf8 кодировка
 
-\usepackage{fontspec}         % пакет для подгрузки шрифтов
-\setmainfont{Linux Libertine O}   % задаёт основной шрифт документа
+% Основные шрифты 
+\usepackage{fontspec}         
+\setmainfont{Linux Libertine O}  % задаёт основной шрифт документа
 
-\usepackage{unicode-math}     % пакет для установки математического шрифта
-\setmathfont[math-style=upright]{[Neo Euler.otf]} % шрифт для математики
+% Математические шрифты 
+\usepackage{unicode-math}     
+\setmathfont[math-style=upright]{[Neo Euler.otf]} 
 
-%%%%%%%%%% Работа с картинками %%%%%%%%%
-\usepackage{graphicx}                  % Для вставки рисунков
+
+%%%%%%%%%% Работа с картинками и таблицами %%%%%%%%%%
+\usepackage{graphicx} % Для вставки рисунков                
 \usepackage{graphics}
-\graphicspath{{images/}{pictures/}}    % можно указать папки с картинками
-\usepackage{wrapfig}                   % Обтекание рисунков и таблиц текстом
+\graphicspath{{images/}{pictures/}}   % папки с картинками
 
-\usepackage{booktabs}
-%%%%%%%%%%%%%%%%%%%%%%%% Графики и рисование %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{tikz, pgfplots}  % язык для рисования графики из latex'a
+\usepackage{wrapfig}    % обтекание рисунков и таблиц текстом
 
-%%%%%%%%%% Гиперссылки %%%%%%%%%%
-\usepackage{xcolor}              % разные цвета
+\usepackage{booktabs}   % таблицы как в годных книгах
+\usepackage{tabularx}   % новые типы колонок
+\usepackage{tabulary}   % и ещё новые типы колонок
+\usepackage{float}      % возможность позиционировать объекты в нужном месте
+\renewcommand{\arraystretch}{1.2}  % больше расстояние между строками
 
-\usepackage{hyperref}
-\hypersetup{
-	unicode=true,           % позволяет использовать юникодные символы
-	colorlinks=true,       	% true - цветные ссылки, false - ссылки в рамках
-	urlcolor=blue,          % цвет ссылки на url
-	linkcolor=red,          % внутренние ссылки
-	citecolor=green,        % на библиографию
-	pdfnewwindow=true,      % при щелчке в pdf на ссылку откроется новый pdf
-	breaklinks              % если ссылка не умещается в одну строку, разбивать ли ее на две части?
-}
 
+%%%%%%%%%% Графики и рисование %%%%%%%%%%
+\usepackage{tikz, pgfplots}  % языки для графики
+\pgfplotsset{compat=1.16}
 
 \usepackage{todonotes} % для вставки в документ заметок о том, что осталось сделать
 % \todo{Здесь надо коэффициенты исправить}
 % \missingfigure{Здесь будет Последний день Помпеи}
 % \listoftodos --- печатает все поставленные \todo'шки
 
+
+%%%%%%%%%% Внешний вид страницы %%%%%%%%%%
+
 \usepackage[paper=a4paper, top=20mm, bottom=15mm,left=20mm,right=15mm]{geometry}
-\usepackage{indentfirst}       % установка отступа в первом абзаце главы
+\usepackage{indentfirst}    % установка отступа в первом абзаце главы
 
 \usepackage{setspace}
-\setstretch{1.15}  % Межстрочный интервал
+\setstretch{1.15}  % межстрочный интервал
 \setlength{\parskip}{4mm}   % Расстояние между абзацами
-% Разные длины в латехе https://en.wikibooks.org/wiki/LaTeX/Lengths
+% Разные длины в LaTeX: https://en.wikibooks.org/wiki/LaTeX/Lengths
 
+% свешиваем пунктуацию
+% теперь знаки пунктуации могут вылезать за правую границу текста, при этом текст выглядит ровнее
+\usepackage{microtype}
 
-\usepackage{xcolor} % Enabling mixing colors and color's call by 'svgnames'
+% \flushbottom                            % Эта команда заставляет LaTeX чуть растягивать строки, чтобы получить идеально прямоугольную страницу
+\righthyphenmin=2                       % Разрешение переноса двух и более символов
+\widowpenalty=300                     % Небольшое наказание за вдовствующую строку (одна строка абзаца на этой странице, остальное --- на следующей)
+\clubpenalty=3000                     % Приличное наказание за сиротствующую строку (омерзительно висящая одинокая строка в начале страницы)
+\tolerance=10000     % Ещё какое-то наказание.
 
-\definecolor{MyColor1}{rgb}{0.2,0.4,0.6} %mix personal color
-\newcommand{\textb}{\color{Black} \usefont{OT1}{lmss}{m}{n}}
-\newcommand{\blue}{\color{MyColor1} \usefont{OT1}{lmss}{m}{n}}
-\newcommand{\blueb}{\color{MyColor1} \usefont{OT1}{lmss}{b}{n}}
-\newcommand{\red}{\color{LightCoral} \usefont{OT1}{lmss}{m}{n}}
-\newcommand{\green}{\color{Turquoise} \usefont{OT1}{lmss}{m}{n}}
+% мои цвета https://www.artlebedev.ru/colors/
+\definecolor{titleblue}{rgb}{0.2,0.4,0.6} 
+\definecolor{blue}{rgb}{0.2,0.4,0.6} 
+\definecolor{red}{rgb}{1,0,0.2} 
+\definecolor{green}{rgb}{0,0.6,0} 
+\definecolor{purp}{rgb}{0.4,0,0.8} 
 
+% цвета из geogebra 
+\definecolor{litebrown}{rgb}{0.6,0.2,0}
+\definecolor{darkbrown}{rgb}{0.75,0.75,0.75}
+
+% Гиперссылки
+\usepackage{xcolor}   % разные цвета
+
+\usepackage{hyperref}
+\hypersetup{
+	unicode=true,           % позволяет использовать юникодные символы
+	colorlinks=true,       	% true - цветные ссылки
+	urlcolor=blue,          % цвет ссылки на url
+	linkcolor=red,          % внутренние ссылки
+	citecolor=green,        % на библиографию
+	breaklinks              % если ссылка не умещается в одну строку, разбивать её на две части?
+}
+
+% меняю оформление секций 
 \usepackage{titlesec}
 \usepackage{sectsty}
-%%%%%%%%%%%%%%%%%%%%%%%%
-%set section/subsections HEADINGS font and color
-\sectionfont{\color{MyColor1}}  % sets colour of sections
-\subsectionfont{\color{MyColor1}}  % sets colour of sections
 
-%set section enumerator to arabic number (see footnotes markings alternatives)
-\renewcommand\thesection{\arabic{section}.} %define sections numbering
-\renewcommand\thesubsection{\thesection\arabic{subsection}} %subsec.num.
+% меняю цвет на синий
+\sectionfont{\color{titleblue}}
+\subsectionfont{\color{titleblue}}
 
-%define new section style
-\newcommand{\mysection}{
-	\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}} 
-	{\thesection} {3pt} {} } 
-
-
-%	CAPTIONS
-\usepackage{caption}
-\usepackage{subcaption}
-%%%%%%%%%%%%%%%%%%%%%%%%
-\captionsetup[figure]{labelfont={color=Turquoise}}
-
+% выбрасываю нумерацию страниц и колонтитулы 
 \pagestyle{empty}
 
-
-%%%%%%%%%% Свои команды %%%%%%%%%%
-\usepackage{etoolbox}    % логические операторы для своих макросов
-
-% Все свои команды лучше всего определять не по ходу текста, как это сделано в этом документе, а в преамбуле!
-
-% Одно из применений - уничтожение какого-то куска текста!
-\newbool{answers}
-% \booltrue{answers}
-\boolfalse{answers}
-
-\newbool{addanswers}
-\boolfalse{addanswers}
-
+% синие круглые бульпоинты в списках itemize 
 \usepackage{enumitem}
-% бульпоинты в списках
-\definecolor{myblue}{rgb}{0, 0.45, 0.70}
-\newcommand*{\MyPoint}{\tikz \draw [baseline, fill=myblue,draw=blue] circle (2.5pt);}
+
+\definecolor{itemizeblue}{rgb}{0, 0.45, 0.70}
+
+\newcommand*{\MyPoint}{\tikz \draw [baseline, fill=itemizeblue, draw=blue] circle (2.5pt);}
+
 \renewcommand{\labelitemi}{\MyPoint}
 
 % расстояние в списках
 \setlist[itemize]{parsep=0.4em,itemsep=0em,topsep=0ex}
 \setlist[enumerate]{parsep=0.4em,itemsep=0em,topsep=0ex}
 
-\begin{document}
 
-\section*{Семинар 4: основы статистики! }
+%%%%%%%%%% Свои команды %%%%%%%%%%
 
-\subsection*{Задача 1}
+% Математические операторы первой необходимости:
+\DeclareMathOperator{\sgn}{sign}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\E}{\mathop{E}}
+\DeclareMathOperator{\Med}{Med}
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator*{\plim}{plim}
 
+% команды пореже
+\newcommand{\const}{\mathrm{const}}  % const прямым начертанием
+\newcommand{\iid}{\sim i.\,i.\,d.}  % ну вы поняли...
+\newcommand{\fr}[2]{\ensuremath{^{#1}/_{#2}}}   % особая дробь
+\newcommand{\ind}[1]{\mathbbm{1}_{\{#1\}}} % Индикатор события
+\newcommand{\dx}[1]{\,\mathrm{d}#1} % для интеграла: маленький отступ и прямая d
+
+% одеваем шапки на частые штуки
+\def \hb{\hat{\beta}}
+\def \hs{\hat{s}}
+\def \hy{\hat{y}}
+\def \hY{\hat{Y}}
+\def \he{\hat{\varepsilon}}
+\def \hVar{\widehat{\Var}}
+\def \hCorr{\widehat{\Corr}}
+\def \hCov{\widehat{\Cov}}
+
+% Греческие буквы
+\def \a{\alpha}
+\def \b{\beta}
+\def \t{\tau}
+\def \dt{\delta}
+\def \e{\varepsilon}
+\def \ga{\gamma}
+\def \kp{\varkappa}
+\def \la{\lambda}
+\def \sg{\sigma}
+\def \tt{\theta}
+\def \Dt{\Delta}
+\def \La{\Lambda}
+\def \Sg{\Sigma}
+\def \Tt{\Theta}
+\def \Om{\Omega}
+\def \om{\omega}
+
+% Готика
+\def \mA{\mathcal{A}}
+\def \mB{\mathcal{B}}
+\def \mC{\mathcal{C}}
+\def \mE{\mathcal{E}}
+\def \mF{\mathcal{F}}
+\def \mH{\mathcal{H}}
+\def \mL{\mathcal{L}}
+\def \mN{\mathcal{N}}
+\def \mU{\mathcal{U}}
+\def \mV{\mathcal{V}}
+\def \mW{\mathcal{W}}
+
+% Жирные буквы
+\def \mbb{\mathbb}
+\def \RR{\mbb R}
+\def \NN{\mbb N}
+\def \ZZ{\mbb Z}
+\def \PP{\mbb{P}}
+\def \QQ{\mbb Q}
+
+
+%%%%%%%%%% Теоремы %%%%%%%%%%
+\theoremstyle{plain} % Это стиль по умолчанию.  Есть другие стили.
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{result}{Следствие}[theorem]
+% счётчик подчиняется теоремному, нумерация идёт по главам согласованно между собой
+
+% убирает курсив и что-то еще наверное делает ;)
+\theoremstyle{definition}         
+\newtheorem*{definition}{Определение}  % нумерация не идёт вообще
+
+
+%%%%%%%%%% Задачки и решения %%%%%%%%%%
+\usepackage{etoolbox}    % логические операторы для своих макросов
+\usepackage{environ}
+\newtoggle{lecture}
+
+\newcounter{probNum}%[section]  % счётчик для упражнений 
+\NewEnviron{problem}{%
+    \refstepcounter{probNum}% увеличели номер на 1 
+    {\noindent \textbf{\large \color{titleblue} Упражнение~\theprobNum}  \\ \BODY}
+    {}%
+  }
+
+% Окружение, чтобы можно было убирать решения из pdf
+\NewEnviron{solution}{%
+  \iftoggle{lecture}
+    {\noindent \textbf{\large Решение:} \\ \BODY}
+    {}%
+  }
+  
+% выделение по тексту важных вещей
+\newcommand{\indef}[1]{\textbf{ \color{green} #1}} 
+
+
+\begin{document} % Конец преамбулы, начало файла
+
+% Если переключить в false, все solution исчезнут из pdf
+\toggletrue{lecture}
+%\togglefalse{lecture}
+
+
+\section*{Семинар 4: основы статистики!}
+
+\todo[inline]{Так можно делать заметки для меня}
+
+В первом разделе семинара большая задачка, которую мы с вами решали на паре. 
+
+\begin{problem}
 Коллекционер Настя собрала целых $10$ наблюдений и записала их в табличку. Теперь Настя хочет стать аналитиком и проанализировать таблицу. Помогите ей. 
 
 \begin{center}
@@ -142,7 +255,7 @@
 	
 	\item[в)] Найдите средний возраст и медианный возраст.  Что означают эти числа. В чём они измеряются? 
 
-	\item[г)] Найдите дисперсию возраста. В чём измеряются эта величина? Зачем обычно ищут среднее квадратическое отклонение? Найдите его. 	
+	\item[г)] Найдите дисперсию возраста. В чём измеряется эта величина? Зачем обычно ищут среднее квадратичное отклонение? Найдите его. 	
 	
 	\item[д)]  Постройте гистограмму для возраста. Считайте, что ширина одного столбца --- 5 лет. Если человек попадает на правую границу отрезка, он попадает в текущий столбец.  Изобразите на гистограмме среднее, медиану. Как бы вы нарисовали на гистограмме стандартное отклонение? 
 	
@@ -150,39 +263,36 @@
 	
 	\item[ж)] Чувствительна ли дисперсия к выбросам?
 	
-	\item[з)] Что такое мода? Почему использовать её для непрерывных переменных не очень хорошая идея? Найдите моду для имени, пола и возраста.  (уточнить что это дискретная мода и тп) 
+	\item[з)] Что такое мода? Почему использовать её для непрерывных переменных не очень хорошая идея? Найдите моду для имени, пола и возраста.
 	
-	\item[и)]  Что такое квантиль? Предложите способ,  борьбы с выбросами, основанный на знании того что такое квантиль... 
+	\item[и)]  Что такое квантиль? Предложите способ,  борьбы с выбросами, основанный на знании того, что такое квантиль.
 \end{enumerate}
+\end{problem}
 
-\ifbool{answers}{
-\textbf{Решение:} 
-
+\begin{solution}
 \begin{enumerate}
-	\item[а)] Непрерывная переменная не ограничена каким-то конечным набором значений и может принимать любые числовые значения. Например: цена на квартиру, валютный курс, возраст и т.п. 
+	\item[а)] \indef{Непрерывная переменная} не ограничена каким-то конечным набором значений и может принимать любые числовые значения. Например: цена на квартиру, валютный курс, возраст, число лайков под фоткой и т.п. 
 	
-	Категориальная переменная принимает значения из какого-то фиксированного конечного множества. Например: пол, марка машины и тп.
+	\indef{Категориальная переменная} принимает значения из какого-то фиксированного конечного множества. Например: пол, марка машины и тп.
 	
 	\item[б)]  В выборке $6$ мужчин и $4$ женщины.  Всего $10$ человек.  Значит доля мужчин $\frac{6}{10} = 0.6$, доля женщин $\frac{4}{10} = 0.4$. Нарисуем гистограмму. По оси $x$ будем откладывать возможные значения для нашей переменной, по оси $y$ насколько часто это значение наблюдается в выборке. 
 	
 	\begin{center}
-	\definecolor{zzttqq}{rgb}{0.6,0.2,0.}
-	\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}
 	\begin{tikzpicture}[line cap=round,line join=round,x=1.0cm,y=1.0cm]
-	\draw [color=cqcqcq,, xstep=1.0cm,ystep=1.0cm] (-3.,-0.04) grid (5.04,5.96);
+	\draw [color=darkbrown,xstep=1.0cm,ystep=1.0cm] (-3.,-0.04) grid (5.04,5.96);
 	\clip(-3.,-0.04) rectangle (5.04,5.96);
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-1.,1.) -- (-1.,4.) -- (0.,4.) -- (0.,1.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (1.,1.) -- (1.,3.) -- (2.,3.) -- (2.,1.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-1.,1.) -- (-1.,4.) -- (0.,4.) -- (0.,1.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (1.,1.) -- (1.,3.) -- (2.,3.) -- (2.,1.) -- cycle;
 	\draw [->,line width=2.pt] (-1.98,0.42) -- (-2.,5.);
 	\draw [->,line width=2.pt] (-2.54,1.) -- (4.,1.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,1.)-- (-1.,4.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,4.)-- (0.,4.);
-	\draw [line width=2.pt,color=zzttqq] (0.,4.)-- (0.,1.);
-	\draw [line width=2.pt,color=zzttqq] (0.,1.)-- (-1.,1.);
-	\draw [line width=2.pt,color=zzttqq] (1.,1.)-- (1.,3.);
-	\draw [line width=2.pt,color=zzttqq] (1.,3.)-- (2.,3.);
-	\draw [line width=2.pt,color=zzttqq] (2.,3.)-- (2.,1.);
-	\draw [line width=2.pt,color=zzttqq] (2.,1.)-- (1.,1.);
+	\draw [line width=2.pt,color=litebrown] (-1.,1.)-- (-1.,4.);
+	\draw [line width=2.pt,color=litebrown] (-1.,4.)-- (0.,4.);
+	\draw [line width=2.pt,color=litebrown] (0.,4.)-- (0.,1.);
+	\draw [line width=2.pt,color=litebrown] (0.,1.)-- (-1.,1.);
+	\draw [line width=2.pt,color=litebrown] (1.,1.)-- (1.,3.);
+	\draw [line width=2.pt,color=litebrown] (1.,3.)-- (2.,3.);
+	\draw [line width=2.pt,color=litebrown] (2.,3.)-- (2.,1.);
+	\draw [line width=2.pt,color=litebrown] (2.,1.)-- (1.,1.);
 	\draw (-2.5,5.5) node[anchor=north west] {$y$};
 	\draw (4.1,1.32) node[anchor=north west] {$x$};
 	\draw (-1.5,0.7) node[anchor=north west] {\text{мужчины}};
@@ -196,30 +306,33 @@
 	\end{tikzpicture}
 	\end{center}
 	
-	\item[в)]  Найдём средний возраст. Для этого сложим все числа и поделим их на количество наблюдений
+	\item[в)]  Найдём \indef{средний возраст.} Для этого сложим все числа и поделим их на количество наблюдений
 	
 	\[
 	\frac{1}{10} \cdot (14 + 16 + 20 + 20 + 14 + 25 + 30 + 23 + 22 + 16) = 20.
 	\]
 	
-	Средний возраст это $20$ лет.  Формула для подсчёта среднего выглядела как 
+	Средний возраст это $20$ лет.  Формула для подсчёта среднего выглядела так:
 	
 	\[
 	\bar x = \frac{1}{n} (x_1 + \ldots + x_n) = \frac{1}{n} \sum_{i=1}^n x_i.
 	\]
 	
-	Привыкайте к формулам. Они будут часто встречаться вам по жизни.  Чтобы найти медиану нам нужно упорядочить всех людей из выборки по возрасту и посмотреть на середину получившегося ряда. 
+	Привыкайте к формулам. Они будут часто встречаться вам по жизни. 
+	
+	Чтобы найти медиану, нам нужно упорядочить всех людей из выборки по возрасту и посмотреть какое число оказалось в середине:
 	
 	\[
-	14 \quad 14  \quad 16  \quad 16  \quad {\color{myblue}{20}}  \quad {\color{myblue}{20}}  \quad 22  \quad 23  \quad 25  \quad 30
+	14 \quad 14  \quad 16  \quad 16  \quad {\color{purp}{20}}  \quad {\color{purp}{20}}  \quad 22  \quad 23  \quad 25  \quad 30
 	\]
 	
-	У нас в середине находятся сразу два человека. Медианой будет их среднее, то есть $20$ лет. Грубо говоря, половина нашей выборки оказывается слева от этого числа, а вторая справа. Медиана находится в серединке.  Оба числа измеряются в годах и обозначают типичный возраст, который присущ людям из выборки. 
+	У нас в середине находятся сразу два числа. В случаях, когда такое происходит в качестве медианы берут среднее этих двух чисел. В нашем случае это $\fr{1}{2} \cdot (20 + 20) = 20$. Медиана это число, взятое посередине. Половина выборки оказывается слева от него, а вторая половина справа. Среднее и медиана в нашей задачке измеряются в годах и обозначают типичный возраст, который присущ людям из выборки. 
 	
-
-	\item[г)]  Дисперсия --- это мера разброса. Она показывает насколько разнообразными могут быть элементы в выборке. Чтобы найти её, нужно посмотреть насколько сильно каждый представитель в выборке отличается от текущего. Величина такого отличия называется отклонением. Предположим, что Алёне $18$ лет. Карине $22$ года. Тогда отклонением для Алёны от среднего возраста будет $18 - 20 = -2$ года. Для Карины отклонением будет $22 - 20 = 2$ года. 
+	\item[г)]  \indef{Дисперсия} --- это мера разброса. Она показывает насколько разнообразными могут быть элементы в выборке, насколько сильно они могут отклоняться от своего типичного значения. 
 	
-	Если просуммировать эти отклонения, мы получим $-2 + 2 = 0$. То есть в выборке нет никакого разброса. Все не отличаются от среднего. Это неправда. Для того, чтобы избежать неправды и жить по правде, отклонения возводят в квадрат. Тогда, мы получаем, что суммарное отклонение будет $(-2)^2 + 2^2 = 4 + 4 = 8$. Посмотрев на такое число мы сразу же поймём, что в выборке есть неоднородность. 
+	Чтобы найти её, нужно посмотреть насколько сильно каждый представитель в выборке отличается от текущего. Величина такого отличия называется отклонением. Предположим, что Алёне $18$ лет. Карине $22$ года. Тогда отклонением для Алёны от среднего возраста будет $18 - 20 = -2$ года. Для Карины отклонением будет $22 - 20 = 2$ года. 
+	
+	Если просуммировать эти отклонения, мы получим $-2 + 2 = 0$. То есть в выборке нет никакого разброса. Все люди не отличаются от среднего. Это неправда. Для того, чтобы избежать неправды и жить по правде, отклонения возводят в квадрат, тогда мы получаем, что суммарное отклонение будет $(-2)^2 + 2^2 = 4 + 4 = 8$. Посмотрев на такое число мы сразу же поймём, что в выборке есть неоднородность. 
 	
 	Среднее значение квадратов отклонений от среднего и называется дисперсией. Давайте найдём её. Ещё раз выпишем наши наблюдения: 
 	
@@ -227,7 +340,7 @@
 	14 \quad 14  \quad 16  \quad 16  \quad 20  \quad 20  \quad 22  \quad 23  \quad 25  \quad 30
 	\]
 	
-	Сначала из каждого вычитаем среднее. Это даст нам вектор 
+	Сначала из каждого вычитаем среднее. Это даст нам
 	
 	\[
 	-6 \quad -6  \quad -4  \quad -4  \quad 0  \quad 0 \quad 2  \quad 3  \quad 5  \quad 10.
@@ -239,11 +352,36 @@
 	36 \quad 36  \quad 16  \quad 16 \quad 0  \quad 0 \quad 4  \quad 9 \quad 25  \quad 100.
 	\]
 	
-	Складываем их! Получается $242$. Остаётся разделить это число на  $10$ (количество наблюдений). Получается, что дисперсия составит $24.2$ квадратных года.  Из-за того, что мы каждое слагаемое возводили в квадрат, дисперсия измеряется в квадратных годах.  
+	Складываем их.  Получается $242$. Остаётся разделить это число на  $10$ (количество наблюдений). Получается, что дисперсия составит $24.2$ квадратных года.  Из-за того, что мы каждое слагаемое возводили в квадрат, \indef{дисперсия измеряется в квадратных годах.}
 	
-	Когда мы умножаем одну сторону квадрата на другую, мы получаем его площадь. Она измеряется в квадратных метрах. Тут похожая ситуация. Мы бы хотели вернутся назад, к обычным годам. Для этого из дисперсии извлекают корень и получают штуку под названием стандартное отклонение.  В нашем случае получится $4.9$ года. 
+	Когда мы умножаем одну сторону квадрата, измеренную в метрах, на другую, мы получаем его площадь. Она измеряется в квадратных метрах. Тут похожая ситуация. Мы бы хотели вернуться назад, к обычным годам. Для этого из дисперсии извлекают корень и получают штуку под названием стандартное отклонение. В нашем случае получится $\sqrt{24.2} \approx 4.9$ года. 
 	
-	Здесь нам осталось обсудить пару нюансов. 
+	
+	Можно найти дисперсию проще и быстрее. Для этого есть специальная формула: 
+
+	$$
+	\hat \sigma^2 = \bar{x^2} - (\bar x)^2,
+	$$
+	
+	то есть дисперсия это среднее квадратов минус квадрат среднего. Эту формулу довольно просто доказать. На матстате вы её докажете. А пока просто воспользуемся ей. Найдём квадрат среднего:
+	
+	$$
+	(\bar x)^2 = 20^2 = 400
+	$$
+	
+	Теперь среднее квадратов: 
+	
+	$$
+	\bar{x^2} = \frac{1}{10} \cdot (14^2 + 16^2 + 20^2 + 20^2 + 14^2 + 25^2 + 30^2 + 23^2 + 22^2 + 16^2) = 424.2.
+	$$
+	
+	Остался последний штрих: 
+	
+	$$
+	\hat sigma^2 = 424.2 - 400 = 24.2.
+	$$
+	
+	Пользуйтесь тем способом, который вам больше нравится. Про дисперсию давайте обсудим ещё пару дополнительных полезных нюансов: 
 	
 	\begin{itemize}
 		\item  Мы возводим отклонения в квадрат не только для того, чтобы сделать все числа положительными. Попутно мы подчёркиваем, что чем больше отклоняется возраст от среднего, тем это хуже. Так штраф за отклонение в два года составит $4$, а за отклонение в три года, $9$.  С подобной логикой мы ещё встретимся, когда будем обсуждать различные метрики, используемые в машинном обучении. 
@@ -260,46 +398,43 @@
 		\hat \sigma^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar x)^2.
 		\]
 		
-		Вторая формула на самом деле корректнее, чем первая.  В питоне используется именно она. У этого есть глубокие причины. В полной мере их вы узнаете в курсе по математической статистике. Мы вкратце скажем об этом ближе к концу курса, когда будем говорить про АБ-тесты. Пока держите это в голове, как вопрос, на который у вас нет ответа. Надеюсь, что это будет как следует мучать вас по ночам и стимулировать ботать. 
-		
+		\indef{Вторая формула, на самом деле, корректнее, чем первая.} В \textit{pandas} используется именно она. У этого есть глубокая причина, которая называется несмещённостью оценки. В полной мере вы узнаете про это в курсе по математической статистике. Мы вкратце поговорим про несмещённые оценки ближе к концу курса, когда будем говорить про АБ-тесты. Пока держите это в голове, как вопрос, на который у вас нет ответа. Надеюсь, что это будет как следует мучать вас по ночам и стимулировать ботать. 
+	
 		\item Если распределение у данных нормальное (что такое нормальное распределение --- отдельный и очень важный вопрос), тогда  большая часть выборки, а именно $69\%$ кучкуется в диапазоне между $\bar x - \hat \sigma$ и $\bar x + \hat \sigma$.  
 		
 		При этом $95 \%$ выборки находится между $\bar x - 2 \cdot \hat \sigma$ и $\bar x + 2 \cdot \hat \sigma$, а $99.9\%$ выборки находятся между $\bar x - 3 \cdot \hat \sigma$ и $\bar x + 3 \cdot \hat \sigma$. 
 		
-		Правила таких кучкований называют правилом одной, двух и трёх сигм. Их часто используют для проведения АБ-тестов. Об этом мы поговорим ближе к концу курса. Попомните моё слово. 
+		Правила таких кучкований называют правилом одной, двух и трёх сигм. Их часто используют для проведения АБ-тестов. Об этом мы тоже поговорим ближе к концу курса. 
 	\end{itemize}
 	
+	\item[д)] Отмечаем по оси $x$ каждые $5$  лет, как сказано в условии задачи. Для всех людей, попавших в этот отрезок рисуем столбик высоты равной количеству людей, попавших в отрезок. Если человек попадает в правую границу отрезка, он попадает и в столбик. Например, $20$ --- это правая граница второго отрезка. Все люди, которым $20$ лет попадают во второй столбик. Это просто договорённость о том, что делать на границе, в спорной ситуации. Не более того.
 	
-	\item[д)] Отмечаем по оси $x$ каждые $5$  лет, как сказано в условии задачи. Для всех людей, попавших в этот отрезок рисуем столбик высоты равной количеству людей, попавших в отрезок. Если человек попадает в \textbf{правую} границу отрезка, он попадает и в столбик. Например, $20$ --- это правая граница второго отрезка. Все люди, которым $20$ лет попадают во второй столбик. Это просто договорённость о том, что делать на границе. Не более того. 
-	
-	\begin{center}
-	\definecolor{zzttqq}{rgb}{0.6,0.2,0.}
-	\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}
-	\begin{tikzpicture}[line cap=round,line join=round,,x=1.0cm,y=1.0cm]
-	\draw [color=cqcqcq,, xstep=1.0cm,ystep=1.0cm] (-4.,-2.02) grid (6.04,5.98);
+\begin{center}
+\begin{tikzpicture}[line cap=round,line join=round,,x=1.0cm,y=1.0cm]
+	\draw [color=darkbrown, xstep=1.0cm,ystep=1.0cm] (-4.,-2.02) grid (6.04,5.98);
 	\clip(-4.,-2.02) rectangle (6.04,5.98);
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-2.,0.) -- (-2.,2.) -- (-1.,2.) -- (-1.,0.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,4.) -- (0.,4.) -- (0.,0.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (1.,0.) -- (1.,1.) -- (2.,1.) -- (2.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-2.,0.) -- (-2.,2.) -- (-1.,2.) -- (-1.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,4.) -- (0.,4.) -- (0.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (1.,0.) -- (1.,1.) -- (2.,1.) -- (2.,0.) -- cycle;
 	\draw [->,line width=2.pt] (-3.,-0.44) -- (-3.,5.);
 	\draw [->,line width=2.pt] (-3.5,0.) -- (5.,0.);
-	\draw [line width=2.pt,color=zzttqq] (-2.,0.)-- (-2.,2.);
-	\draw [line width=2.pt,color=zzttqq] (-2.,2.)-- (-1.,2.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,2.)-- (-1.,0.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,0.)-- (-2.,0.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,0.)-- (-1.,4.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,4.)-- (0.,4.);
-	\draw [line width=2.pt,color=zzttqq] (0.,4.)-- (0.,0.);
-	\draw [line width=2.pt,color=zzttqq] (0.,0.)-- (-1.,0.);
-	\draw [line width=2.pt,color=zzttqq] (0.,0.)-- (0.,3.);
-	\draw [line width=2.pt,color=zzttqq] (0.,3.)-- (1.,3.);
-	\draw [line width=2.pt,color=zzttqq] (1.,3.)-- (1.,0.);
-	\draw [line width=2.pt,color=zzttqq] (1.,0.)-- (0.,0.);
-	\draw [line width=2.pt,color=zzttqq] (1.,0.)-- (1.,1.);
-	\draw [line width=2.pt,color=zzttqq] (1.,1.)-- (2.,1.);
-	\draw [line width=2.pt,color=zzttqq] (2.,1.)-- (2.,0.);
-	\draw [line width=2.pt,color=zzttqq] (2.,0.)-- (1.,0.);
+	\draw [line width=2.pt,color=litebrown] (-2.,0.)-- (-2.,2.);
+	\draw [line width=2.pt,color=litebrown] (-2.,2.)-- (-1.,2.);
+	\draw [line width=2.pt,color=litebrown] (-1.,2.)-- (-1.,0.);
+	\draw [line width=2.pt,color=litebrown] (-1.,0.)-- (-2.,0.);
+	\draw [line width=2.pt,color=litebrown] (-1.,0.)-- (-1.,4.);
+	\draw [line width=2.pt,color=litebrown] (-1.,4.)-- (0.,4.);
+	\draw [line width=2.pt,color=litebrown] (0.,4.)-- (0.,0.);
+	\draw [line width=2.pt,color=litebrown] (0.,0.)-- (-1.,0.);
+	\draw [line width=2.pt,color=litebrown] (0.,0.)-- (0.,3.);
+	\draw [line width=2.pt,color=litebrown] (0.,3.)-- (1.,3.);
+	\draw [line width=2.pt,color=litebrown] (1.,3.)-- (1.,0.);
+	\draw [line width=2.pt,color=litebrown] (1.,0.)-- (0.,0.);
+	\draw [line width=2.pt,color=litebrown] (1.,0.)-- (1.,1.);
+	\draw [line width=2.pt,color=litebrown] (1.,1.)-- (2.,1.);
+	\draw [line width=2.pt,color=litebrown] (2.,1.)-- (2.,0.);
+	\draw [line width=2.pt,color=litebrown] (2.,0.)-- (1.,0.);
 	\draw (-2.4,0) node[anchor=north west] {$10$};
 	\draw (-1.4,0) node[anchor=north west] {$15$};
 	\draw (-0.4,0) node[anchor=north west] {$20$};
@@ -318,138 +453,220 @@
 	\draw (1.1, 0.8) node[anchor=north west] {$30$};
 	\draw (4,-0.2) node[anchor=north west] {возраст};
 	\draw (-4, 5.6) node[anchor=north west] {число людей};
-	\end{tikzpicture}
-	\end{center}
+\end{tikzpicture}
+\end{center}
 
-Отлично! Гистограмма готова. Каждого человека, которого мы внесли в тот или иной столбец, мы подписали. Давайте отметим на гистограмме медиану и среднее значение. Как это не странно, они оказываютя в "центре" распределения.  
+Отлично! Гистограмма готова. Каждого человека, которого мы внесли в тот или иной столбец, мы подписали. Давайте отметим на гистограмме медиану и среднее значение. Как это не странно, они оказываютcя в "центре" распределения.  
 
-
-	\begin{center}
-	\definecolor{zzttqq}{rgb}{0.6,0.2,0.}
-	\definecolor{cqcqcq}{rgb}{0.75,0.75,0.75}
-	\definecolor{qqqqff}{rgb}{0.,0.,1.}
-	\begin{tikzpicture}[line cap=round,line join=round,,x=1.0cm,y=1.0cm]
-	\draw [color=cqcqcq,, xstep=1.0cm,ystep=1.0cm] (-4.,-2.02) grid (6.04,5.98);
+\begin{center}
+\begin{tikzpicture}[line cap=round,line join=round,,x=1.0cm,y=1.0cm]
+	\draw [color=darkbrown,, xstep=1.0cm,ystep=1.0cm] (-4.,-2.02) grid (6.04,5.98);
 	\clip(-4.,-2.02) rectangle (6.04,5.98);
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-2.,0.) -- (-2.,2.) -- (-1.,2.) -- (-1.,0.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,4.) -- (0.,4.) -- (0.,0.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
-	\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (1.,0.) -- (1.,1.) -- (2.,1.) -- (2.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-2.,0.) -- (-2.,2.) -- (-1.,2.) -- (-1.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,4.) -- (0.,4.) -- (0.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (1.,0.) -- (1.,1.) -- (2.,1.) -- (2.,0.) -- cycle;
 	\draw [->,line width=2.pt] (-3.,-0.44) -- (-3.,5.);
 	\draw [->,line width=2.pt] (-3.5,0.) -- (5.,0.);
-	\draw [line width=2.pt,color=zzttqq] (-2.,0.)-- (-2.,2.);
-	\draw [line width=2.pt,color=zzttqq] (-2.,2.)-- (-1.,2.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,2.)-- (-1.,0.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,0.)-- (-2.,0.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,0.)-- (-1.,4.);
-	\draw [line width=2.pt,color=zzttqq] (-1.,4.)-- (0.,4.);
-	\draw [line width=2.pt,color=zzttqq] (0.,4.)-- (0.,0.);
-	\draw [line width=2.pt,color=zzttqq] (0.,0.)-- (-1.,0.);
-	\draw [line width=2.pt,color=zzttqq] (0.,0.)-- (0.,3.);
-	\draw [line width=2.pt,color=zzttqq] (0.,3.)-- (1.,3.);
-	\draw [line width=2.pt,color=zzttqq] (1.,3.)-- (1.,0.);
-	\draw [line width=2.pt,color=zzttqq] (1.,0.)-- (0.,0.);
-	\draw [line width=2.pt,color=zzttqq] (1.,0.)-- (1.,1.);
-	\draw [line width=2.pt,color=zzttqq] (1.,1.)-- (2.,1.);
-	\draw [line width=2.pt,color=zzttqq] (2.,1.)-- (2.,0.);
-	\draw [line width=2.pt,color=zzttqq] (2.,0.)-- (1.,0.);
+	\draw [line width=2.pt,color=litebrown] (-2.,0.)-- (-2.,2.);
+	\draw [line width=2.pt,color=litebrown] (-2.,2.)-- (-1.,2.);
+	\draw [line width=2.pt,color=litebrown] (-1.,2.)-- (-1.,0.);
+	\draw [line width=2.pt,color=litebrown] (-1.,0.)-- (-2.,0.);
+	\draw [line width=2.pt,color=litebrown] (-1.,0.)-- (-1.,4.);
+	\draw [line width=2.pt,color=litebrown] (-1.,4.)-- (0.,4.);
+	\draw [line width=2.pt,color=litebrown] (0.,4.)-- (0.,0.);
+	\draw [line width=2.pt,color=litebrown] (0.,0.)-- (-1.,0.);
+	\draw [line width=2.pt,color=litebrown] (0.,0.)-- (0.,3.);
+	\draw [line width=2.pt,color=litebrown] (0.,3.)-- (1.,3.);
+	\draw [line width=2.pt,color=litebrown] (1.,3.)-- (1.,0.);
+	\draw [line width=2.pt,color=litebrown] (1.,0.)-- (0.,0.);
+	\draw [line width=2.pt,color=litebrown] (1.,0.)-- (1.,1.);
+	\draw [line width=2.pt,color=litebrown] (1.,1.)-- (2.,1.);
+	\draw [line width=2.pt,color=litebrown] (2.,1.)-- (2.,0.);
+	\draw [line width=2.pt,color=litebrown] (2.,0.)-- (1.,0.);
 	\draw (-0.4,-0.2) node[anchor=north west] {\color{blue} $20$};
 	\draw (4,-0.2) node[anchor=north west] {возраст};
 	\draw (-4, 5.6) node[anchor=north west] {число людей};
-	\draw [fill=qqqqff] (0.,0.) circle (2pt);
-	\end{tikzpicture}
+	\draw [fill=blue] (0.,0.) circle (3pt);
+\end{tikzpicture}
 \end{center}
 
 Выше мы обсудили, что стандартное отклонение --- величина, которая описывает вариацию выборки вокруг среднего значения и поговорили про правила сигм. Давайте нарисуем от среднего отступы на сигмы вправо и влево. 
 
 \begin{center}
-\definecolor{zzttqq}{rgb}{0.6,0.2,0.}
-\definecolor{cqcqcq}{rgb}{0.75,0.75,0.75}
-\definecolor{qqqqff}{rgb}{0.,0.,1.}
 \begin{tikzpicture}[line cap=round,line join=round,x=1.0cm,y=1.0cm]
-	\draw [color=cqcqcq,, xstep=1.0cm,ystep=1.0cm] (-4.,-2.02) grid (6.04,5.98);
-\clip(-4.,-2.02) rectangle (6.04,5.98);
-\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-2.,0.) -- (-2.,2.) -- (-1.,2.) -- (-1.,0.) -- cycle;
-\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,4.) -- (0.,4.) -- (0.,0.) -- cycle;
-\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
-\fill[line width=2.pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (1.,0.) -- (1.,1.) -- (2.,1.) -- (2.,0.) -- cycle;
-\draw [->,line width=2.pt] (-3.,-0.44) -- (-3.,5.);
-\draw [->,line width=2.pt] (-3.5,0.) -- (5.,0.);
-\draw [line width=2.pt,color=zzttqq] (-2.,0.)-- (-2.,2.);
-\draw [line width=2.pt,color=zzttqq] (-2.,2.)-- (-1.,2.);
-\draw [line width=2.pt,color=zzttqq] (-1.,2.)-- (-1.,0.);
-\draw [line width=2.pt,color=zzttqq] (-1.,0.)-- (-2.,0.);
-\draw [line width=2.pt,color=zzttqq] (-1.,0.)-- (-1.,4.);
-\draw [line width=2.pt,color=zzttqq] (-1.,4.)-- (0.,4.);
-\draw [line width=2.pt,color=zzttqq] (0.,4.)-- (0.,0.);
-\draw [line width=2.pt,color=zzttqq] (0.,0.)-- (-1.,0.);
-\draw [line width=2.pt,color=zzttqq] (0.,0.)-- (0.,3.);
-\draw [line width=2.pt,color=zzttqq] (0.,3.)-- (1.,3.);
-\draw [line width=2.pt,color=zzttqq] (1.,3.)-- (1.,0.);
-\draw [line width=2.pt,color=zzttqq] (1.,0.)-- (0.,0.);
-\draw [line width=2.pt,color=zzttqq] (1.,0.)-- (1.,1.);
-\draw [line width=2.pt,color=zzttqq] (1.,1.)-- (2.,1.);
-\draw [line width=2.pt,color=zzttqq] (2.,1.)-- (2.,0.);
-\draw [line width=2.pt,color=zzttqq] (2.,0.)-- (1.,0.);
-\draw (-0.4,-0.2) node[anchor=north west] {\color{blue} $20$};
-\draw (4,-0.2) node[anchor=north west] {возраст};
-\draw (-4, 5.6) node[anchor=north west] {число людей};
-\draw [->,line width=1.pt] (0.,-1.) -- (1.,-1.);
-\draw [->,line width=1.pt] (0.,-1.) -- (-1.,-1.);
-\draw [->,line width=1.pt] (0,-1.5) -- (-2,-1.5);
-\draw [->,line width=1.pt] (0,-1.5) -- (2,-1.5);
-\draw (0.6,-0.2) node[anchor=north west] {$\bar x + \hat \sigma$};
-\draw (-1.6,-0.2) node[anchor=north west] {$\bar x - \hat \sigma$};
-\draw (1.8,-0.8) node[anchor=north west] {$\bar x + 2 \hat \sigma$};
-\draw (-3,-0.8) node[anchor=north west] {$\bar x - 2 \hat \sigma$};
-\draw [fill=qqqqff] (0.,0.) circle (2.5pt);
+	\draw [color=darkbrown,, xstep=1.0cm,ystep=1.0cm] (-4.,-2.02) grid (6.04,5.98);
+    \clip(-4.,-2.02) rectangle (6.04,5.98);
+    \fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-2.,0.) -- (-2.,2.) -- (-1.,2.) -- (-1.,0.) -- cycle;
+    \fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,4.) -- (0.,4.) -- (0.,0.) -- cycle;
+    \fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
+    \fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (1.,0.) -- (1.,1.) -- (2.,1.) -- (2.,0.) -- cycle;
+    \draw [->,line width=2.pt] (-3.,-0.44) -- (-3.,5.);
+    \draw [->,line width=2.pt] (-3.5,0.) -- (5.,0.);
+    \draw [line width=2.pt,color=litebrown] (-2.,0.)-- (-2.,2.);
+    \draw [line width=2.pt,color=litebrown] (-2.,2.)-- (-1.,2.);
+    \draw [line width=2.pt,color=litebrown] (-1.,2.)-- (-1.,0.);
+    \draw [line width=2.pt,color=litebrown] (-1.,0.)-- (-2.,0.);
+    \draw [line width=2.pt,color=litebrown] (-1.,0.)-- (-1.,4.);
+    \draw [line width=2.pt,color=litebrown] (-1.,4.)-- (0.,4.);
+    \draw [line width=2.pt,color=litebrown] (0.,4.)-- (0.,0.);
+    \draw [line width=2.pt,color=litebrown] (0.,0.)-- (-1.,0.);
+    \draw [line width=2.pt,color=litebrown] (0.,0.)-- (0.,3.);
+    \draw [line width=2.pt,color=litebrown] (0.,3.)-- (1.,3.);
+    \draw [line width=2.pt,color=litebrown] (1.,3.)-- (1.,0.);
+    \draw [line width=2.pt,color=litebrown] (1.,0.)-- (0.,0.);
+    \draw [line width=2.pt,color=litebrown] (1.,0.)-- (1.,1.);
+    \draw [line width=2.pt,color=litebrown] (1.,1.)-- (2.,1.);
+    \draw [line width=2.pt,color=litebrown] (2.,1.)-- (2.,0.);
+    \draw [line width=2.pt,color=litebrown] (2.,0.)-- (1.,0.);
+    \draw (-0.4,-0.2) node[anchor=north west] {\color{blue} $20$};
+    \draw (4,-0.2) node[anchor=north west] {возраст};
+    \draw (-4, 5.6) node[anchor=north west] {число людей};
+    \draw [->,line width=1.pt] (0.,-1.) -- (1.,-1.);
+    \draw [->,line width=1.pt] (0.,-1.) -- (-1.,-1.);
+    \draw [->,line width=1.pt] (0,-1.5) -- (-2,-1.5);
+    \draw [->,line width=1.pt] (0,-1.5) -- (2,-1.5);
+    \draw (0.6,-0.2) node[anchor=north west] {$\bar x + \hat \sigma$};
+    \draw (-1.6,-0.2) node[anchor=north west] {$\bar x - \hat \sigma$};
+    \draw (1.8,-0.8) node[anchor=north west] {$\bar x + 2 \hat \sigma$};
+    \draw (-3,-0.8) node[anchor=north west] {$\bar x - 2 \hat \sigma$};
+    \draw [fill=blue] (0.,0.) circle (3pt);
 \end{tikzpicture}
 \end{center}
 
-	\item[е)] 	В возрасте всё хорошо. В весе есть выброс. Кто-то слишком много ест. Давайте найдём среднее и медиану. Среднее окажется равно $\frac{1000}{10} = 100$. Медиана окажется равна $80$. Видим, что выброс существенно сдвинул среднее значение веса в большую сторону. Из-за этого оно перестало отражать типичный вес человека из выборки. Наше представление о людях оказалось искажено. 
+	\item[е)] 	В возрасте всё хорошо. В весе есть выброс, кто-то слишком много ест. Давайте найдём среднее и медиану. Среднее окажется равно $\frac{1000}{10} = 100$. Медиана окажется равна $80$. Видим, что выброс существенно сдвинул среднее значение веса в большую сторону. Из-за этого оно перестало отражать типичный вес человека из выборки. Наше представление о людях оказалось искажено. 
 
-	Медиана в отличие от среднего оказывается нечувствительна к выбросам. Это происходит из-за способа её поиска. Мы упорядочиваем наблюдения по порядку и смотрим на то, какое в середине. Значение выброса никак не участвует в подсчёте медианы и именно из-за этого не искажает её. 
+	Медиана, в отличие от среднего, оказывается нечувствительна к выбросам. Это происходит из-за способа её поиска. Мы упорядочиваем наблюдения по порядку и смотрим на то, какое в середине. Значение выброса никак не участвует в подсчёте медианы и именно из-за этого не искажает её. 
 	
-	На гистограмме переменным, в которых есть выбросы соответствуют очень длинные хвосты. Мы посмотрим на такие гистограммы на копах. 	
-	. 
-	\item[ж)]  К несчастью, да.  Когда мы считаем её, мы возводим все разности в квадрат. Грубо говоря, разница между средним и выбросом будет большой. Когда мы возведем её в квадрат и прибавим к дисперсии, она очень сильно увеличится. 
+	На гистограмме переменным, в которых есть выбросы соответствуют очень длинные хвосты. В нашем случае именно так и произошло:
+	
+\begin{center}
+\begin{tikzpicture}[line cap=round,line join=round,,x=1.0cm,y=1.0cm]
+	\draw [color=darkbrown,, xstep=1.0cm,ystep=1.0cm] (-4.,-1.02) grid (10.04,5.98);
+	\clip(-4.,-1) rectangle (10.04,5.98);
+
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (-1.,0.) -- (-1.,5.) -- (-2.,5.) -- (-2.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (0.,0.) -- (0.,3.) -- (1.,3.) -- (1.,0.) -- cycle;
+	\fill[line width=2.pt,color=litebrown,fill=litebrown,fill opacity=0.10000000149011612] (7.,0.) -- (7.,1) -- (8.,1) -- (8.,0.) -- cycle;
+	\draw [->,line width=2.pt] (-3.,-0.44) -- (-3.,5.);
+	\draw [->,line width=2.pt] (-3.5,0.) -- (9.,0.);
+	
+	\draw [line width=2.pt,color=litebrown] (-2.,0.)-- (-2.,5.);
+	\draw [line width=2.pt,color=litebrown] (-2.,5.)-- (-1.,5.);
+	\draw [line width=2.pt,color=litebrown] (-1.,5.)-- (-1.,0.);
+	\draw [line width=2.pt,color=litebrown] (-2.,0.)-- (-1.,0.);
+	
+	\draw [line width=2.pt,color=litebrown] (0.,0.)-- (0.,3.);
+	\draw [line width=2.pt,color=litebrown] (0.,3.)-- (1.,3.);
+	\draw [line width=2.pt,color=litebrown] (1.,3.)-- (1,0.);
+	\draw [line width=2.pt,color=litebrown] (1.,0.)-- (0.,0.);
+	
+	\draw [line width=2.pt,color=litebrown] (8.,0.)-- (8.,1);
+	\draw [line width=2.pt,color=litebrown] (8.,1)-- (7.,1);
+	\draw [line width=2.pt,color=litebrown] (7.,1)-- (7.,0.);
+	\draw [line width=2.pt,color=litebrown] (7.,0.)-- (8.,0.);
+
+	\draw (8,-0.2) node[anchor=north west] {вес};
+	\draw (-4, 5.8) node[anchor=north west] {число людей};
+    \draw (0.4,-0.2) node[anchor=north west] {\color{purp} $80$};
+	\draw [fill=purp] (1.,0.) circle (3pt);
+	
+	\draw (1.4,-0.2) node[anchor=north west] {\color{blue} $100$};
+	\draw [fill=blue] (2.,0.) circle (3pt);
+\end{tikzpicture}
+\end{center}	
+
+	\item[ж)]  К несчастью, \indef{дисперсия чувствительна к выбросам.} Когда мы считаем её, мы возводим все разности в квадрат. Разница между средним и выбросом будет большой. Когда мы возведем её в квадрат и прибавим к дисперсии, она очень сильно увеличится. 
 	
 	\item[з)] Мы с вами определили моду как самое часто встречаемое значение признака в выборке. Для пола модной будут мужчины. Для веса модой будет $80$. Для возраста модой будет либо $20$ либо $14$.  
 	
-	Для непрерывных переменных использовать моду в качестве меры типичности довольно глупо. Часто бывает так, что непрерывные признаки довольно близки друг к другу, но немного различаются. Чаще всего моду используют, чтобы охарактеризовать именно категориальные переменные. Смотрят на пару: мода, её частота. 
+	Для непрерывных переменных использовать моду в качестве меры типичности довольно глупо. Часто бывает так, что непрерывные признаки довольно близки друг к другу, но немного различаются. \indef{Чаще всего моду используют, чтобы охарактеризовать именно категориальные переменные. Смотрят на пару: мода, её частота.} 
 	
-	На самом деле моду можно определить так, чтобы она была корректна и для непрерывных признаков. Обычно говорят, что мода это самое вероятное значение в выборке. И после моду ищут по плотности распределения (грубо говоря, по гистограмме), пытаясь понять какому числу соответствует её самая высокая точка. Но об этом вы узнаете на теории вероятностей. 
+	На самом деле моду можно определить так, чтобы она была корректна и для непрерывных признаков. Обычно говорят, что мода это самое вероятное значение в выборке.  Это позволяет найти её по плотности распределения (грубо говоря, по гистограмме), пытаясь понять какому числу соответствует её самая высокая точка. Подробнее об этом вы узнаете на теории вероятностей. 
 	
 	\item[и)]  На вопрос что такое квантиль, нам поможет ответить медиана. Мы сказали с вами, что если отсортировать выборку по возрастанию, то в середине у неё окажется медиана. 
 	
 	\[
-	14 \quad 14  \quad 16  \quad 16  \quad {\color{myblue}{20}}  \quad {\color{myblue}{20}}  \quad 22  \quad 23  \quad 25  \quad 30
+	14 \quad 14  \quad 16  \quad 16  \quad {\color{purp} 20}  \quad {\color{purp} 20}  \quad 22  \quad 23  \quad 25  \quad 30
 	\]
 	
 	Получается, что $50\%$ выборки больше медианы, и $50\%$ выборки меньше медианы. Медиана --- это $50\%$ квантиль. По аналогии можно придумать другие квантили. Например, ниже красным отмечены $30\%$ и $70\%$ квантили: 
 	
 	\[
-	14 \quad 14  \quad {\color{red}16 } \quad 16  \quad 20  \quad 20  \quad 22  \quad {\color{red}{23}}  \quad 25  \quad 30
+	14 \quad 14  \quad {\color{red} 16}  \quad 16  \quad 20  \quad 20  \quad {\color{red} 22}  \quad 23  \quad 25  \quad 30
 	\]
 	
-	Ровно $30\%$ меньше $16$ и $70\%$ больше $16$. И наоборот в случае $23$. Среднее и медиана помогают понять какие представители типичны для середины распределения. Квантили помогают понять какие представители типичны для разных кусков распределения. 
+	Ровно $30\%$ выборки $ \le 16$ и $70\%$ больше $16$. И наоборот в случае $22$. Среднее и медиана помогают понять какие представители типичны для середины распределения. Квантили помогают понять какие представители типичны для разных кусков распределения. Например, если мы имеем дела со стоимостью недвижимости, мы можем понять какая стоимость квартир типична для элитных районов. 
 
-	Как мы выяснили выше, выбросы могут существенным образом искажать наши представления о выборке. От них нужно выборку очищать. Один из способов: отрубить все наблюдения, которые находятся выше $99\%$ квантиля и все наблюдения, которы находятся ниже $1\%$ квантиля. Все выбросы такой процедурой будут убиты и мы сможем спокойно работать с выборкой. 
-
+	Как мы выяснили выше, \indef{выбросы могут существенным образом искажать наши представления о выборке.} От них нужно выборку очищать. Один из способов: отрубить все наблюдения, которые находятся выше $99\%$ квантиля и все наблюдения, которые находятся ниже $1\%$ квантиля. Все выбросы такой процедурой будут убиты и мы сможем спокойно работать с выборкой. Иногда берут $95\%$ и $5\%$ квантили. 
 \end{enumerate}
-}
+\end{solution}
+
+
 
 \section*{Ещё задачи!} 
 
-Тут находится несколько задачек, о которых вам нужно подумать самостоятельно, в домашних условиях, за чашкой чая.  Возможно, что похожие задачи попадутся вам на самостоятельной работе. Рискнёте проверить?
+Тут находится несколько задачек, о которых вам нужно подумать самостоятельно, в домашних условиях, за чашкой чая. Одна из этих задачек точно попадётся вам на самостоятельной работе. Вторая задачка на ней будет совсем-совсем новой. 
 
-\subsection*{Задача 2}
+\begin{problem} 
+Ваня любит пить чай. Иногда он пьёт его с сахаром, иногда без. На этой неделе он помечал $1$ дни, когда пил чай с сахаром. Получилось $1,1,0,0,1,0$.  
 
+\begin{enumerate}
+    \item[а)] Найдите среднее значение сахарных дней в жизни Вани. Найдите дисперсию сахарных дней.
+    \item[б)] Правда ли, что среднее число сахарных дней совпало с долей сахарных дней? Почему так вышло? Всегда ли так будет происходить?
+    \item[в)] Между дисперсией и долей в случаях, когда переменная принимает значения $0$ или $1$ тоже есть связь. Сможете догадаться как будет выглядеть формула, описывающая эту связь? 
+\end{enumerate}
+\end{problem} 
+
+\begin{solution}
+\begin{enumerate}
+    \item[а)] Среднее получится $\fr{1}{2}$, а дисперсия $\fr{1}{4}$.
+    \item[б)] Да, правда! Долю единиц мы с вами считаем по формуле: 
+    
+    $$
+    p = \frac{\text{количество единиц}}{\text{общее число наблюдений}}.
+    $$
+    
+    Среднее мы считаем по формуле: 
+    
+    $$
+    \bar x = \frac{1 + 1 + 0 + 0 + 1 + 0}{6},
+    $$
+    
+    но ведь сумма в числителе среднего это и есть количество единиц! Для переменной, которая принимает значения $0$ или $1$ среднее всегда совпадает с долей.
+    
+    Кстати говоря, по-другому долю можно проинтерпретировать как вероятность встретить в выборке $1$. Запомните этот факт, мы часто будем в питоне считать долю единиц в выборке как \textit{np.mean(x)}, то есть как среднее.
+
+    \item[в)] Самый сложный пункт этой задачки. Сначала скажу вам ответ, а потом расскажу как можно до этого догадаться. \indef{Дисперсия для величины, которая принимает значения $0$ и $1$ считается по формуле $p \cdot (1 - p)$, где $p$ --- доля единиц.}
+    
+    Дисперсию можно найти по формуле: 
+    
+    $$
+    \hat \sigma^2 = \bar{x^2} - (\bar x)^2.
+    $$
+    
+    Когда в выборке есть только $0$ и $1$ всегда $x_i^2 = x_i$, потому что $1^2 = 1$, $0^2 = 0$. Получается, что 
+    
+    $$
+    \bar{x^2} = \frac{1}{n} \cdot (x_1^2 + x_2^2 + \ldots + x_n^2) = \frac{1}{n} \cdot (x_1 + x_2 + \ldots + x_n) = \bar x.  
+    $$
+    
+    Мы помним, что среднее равно доле, получается, что 
+    
+     $$
+    \hat \sigma^2 = p - p^2 = p \cdot (1-p).
+    $$
+    
+    Получилась формула, которую мы с вами выписали чуть выше. Этот фокус работает только для долей! То есть только для выборок из нулей и единиц. Эта формула нам понадобится, когда мы будем разбираться с АБ-тестами. 
+\end{enumerate}
+\end{solution}
+
+
+\begin{problem} 
 Имеется пять чисел: $x$, $9$, $5$, $4$, $7$. При каком значении $x$ медиана будет равна среднему? А можно ли поставить такие цифры в условии задачи, чтобы $x$ не существовал?
+\end{problem}
 
-\ifbool{answers}{
-\textbf{Решение:} 
-
+\begin{solution}
 Расположим числа в порядке возрастания: $4,5,7,9$. В зависимости от расположения $x$ меняется медиана. Так, если мы воткнём $x$ перед или сразу после $4$, медианой будет $5$. Если воткнуть $x$ после $5$, то сам $x$ будет медианой. Если воткнуть $x$ в конце или перед $9$, то медианой окажется $7$. 
 
 Составим три уравнения: 
@@ -461,40 +678,40 @@
 & \frac{4 + 5 + 7 + 9 + x}{5} = 7 \Rightarrow x = 10 \\
 \end{aligned}
 \end{equation*}
-}
+\end{solution}
 
 
-\subsection*{Задача 3}
-
+\begin{problem}
 Измерен рост $25$ человек. Средний рост оказался равным $160$ см. Медиана оказалась равной $155$ см. Машин рост в $163$ см был ошибочно внесен как $173$ см. Как изменится медиана и среднее после исправления ошибки? А как могут измениться медиана и среднее, если рост Маши равен $153$?
-
-\ifbool{answers}{
-\textbf{Решение:} 
-
+\end{problem}
+ 
+\begin{solution}
 Если рост Маши ошибочно был внесен как $173$ см вместо $163$, то при исправлении ошибки изменения никак не отразятся на медиане, потому что ошибочно внесенный рост и ее рост больше медианы. Средний рост уменьшится. В случае $153$ изменения могут коснуться как среднего, так и медианы. 
-}
+\end{solution}
 
-\subsection*{Задача 4}
 
+\begin{problem}
 Деканат утверждает, что если студента $N$ перевести из группы $A$ в группу $B$,то средний рейтинг каждой группы возрастет. Возможно ли такое?
+\end{problem}
 
-\ifbool{answers}{
-\textbf{Решение:} 
-
+\begin{solution}
 Да, возможно. Если средняя оценка $N$ ниже средней оценки группы $A$, но выше средней в группе $B$, то после смены студентом группы средняя оценка каждой группы и ее рейтинг возрастут.
 
 Например, группы $А$ и $В$ состоят из $3$ человек, которые имеют оценки $8$, $9$, $10$ и $1$, $2$, $3$ соответственно. Студент $N$, имеющий оценку $8$, желает перейти в группу $В$. Тогда изменения оценки группы $A$:  $\frac{(9+10)}{2} - \frac{(9+10+8)}{3} = 0.5$, то есть рейтинг группы повысится. Изменения для группы $B$:   $\frac{(1+2+3+8)}{4} - \frac{(1+2+3)}{3} = 1.5$, а значит рейтинг группы $B$ тоже повысится.
-}
+\end{solution}
 
-\subsection*{Задача 5} 
 
+\begin{problem}
 Иногда в качестве меры разброса используют размах. Находят максимальное значение в выборке, минимальное значение выборке, а после вычитают из максимума минимум. Как думаете, такая мера чувствительна к выбросам? Предложите способ сделать её устойчивой к ним.
+\end{problem}
 
-\ifbool{answers}{
-\textbf{Решение:} 
+\begin{solution}
+Да, будет. Для того, чтобы сделать эту мену устойчивой к выбросам, можно считать интерквантильный размах, то есть вычитать из $75\%$ квантиля $25\%$ квантиль. Это поможет срезать все выбросы и учитывать только центральную часть распредения. Если вы не очень поняли что означает эта фраза, вернитесь к гистограмме, поставьте на ней засечки там, где расположены $75\%$ квантиль и $25\%$ квантиль, а потом подумайте где окажутся выбросы. 
+\end{solution}
 
-Да, будет. Для того, чтобы сделать эту мену устойчивой к выбросам, можно считать интерквантильный размах, то есть вычитать из $75\%$ квантиля $25\%$ квантиль.
-}
 
+\todo[inline]{Упражнение на придумать дисперсию в модулях и медианах либо сказать устойчива ли она к выбросам - ???}
+
+\todo[inline]{Задачка на то, кто обычно левее а кто правее (мода медиана среднее - ???}
 
 \end{document}
