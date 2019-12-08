@@ -1,107 +1,108 @@
 %!TEX TS-program = xelatex
 \documentclass[12pt, a4paper, oneside]{article}
 
-\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}  % пакеты для математики
+% пакеты для математики
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}  
+\mathtoolsset{showonlyrefs=true}  % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
 
 \usepackage[english, russian]{babel} % выбор языка для документа
-\usepackage[utf8]{inputenc} % задание utf8 кодировки исходного tex файла
-\usepackage[X2,T2A]{fontenc}        % кодировка
+% \usepackage[utf8]{inputenc}          % utf8 кодировка
 
-\usepackage{fontspec}         % пакет для подгрузки шрифтов
-\setmainfont{Linux Libertine O}   % задаёт основной шрифт документа
+% Основные шрифты 
+\usepackage{fontspec}         
+\setmainfont{Linux Libertine O}  % задаёт основной шрифт документа
 
-\usepackage{unicode-math}     % пакет для установки математического шрифта
-\setmathfont[math-style=upright]{Neo Euler} % шрифт для математики
+% Математические шрифты 
+\usepackage{unicode-math}     
+\setmathfont[math-style=upright]{[Neo Euler.otf]} 
 
-% Конкретный символ из конкретного шрифта
-% \setmathfont[range=\int]{Neo Euler}
 
-%%%%%%%%%% Работа с картинками %%%%%%%%%
-\usepackage{graphicx}                  % Для вставки рисунков
+%%%%%%%%%% Работа с картинками и таблицами %%%%%%%%%%
+\usepackage{graphicx} % Для вставки рисунков                
 \usepackage{graphics}
-\graphicspath{{images/}{pictures/}}    % можно указать папки с картинками
-\usepackage{wrapfig}                   % Обтекание рисунков и таблиц текстом
+\graphicspath{{images/}{pictures/}}   % папки с картинками
 
-%%%%%%%%%%%%%%%%%%%%%%%% Графики и рисование %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{tikz, pgfplots}  % язык для рисования графики из latex'a
+\usepackage{wrapfig}    % обтекание рисунков и таблиц текстом
 
-%%%%%%%%%% Гиперссылки %%%%%%%%%%
-\usepackage{xcolor}              % разные цвета
+\usepackage{booktabs}   % таблицы как в годных книгах
+\usepackage{tabularx}   % новые типы колонок
+\usepackage{tabulary}   % и ещё новые типы колонок
+\usepackage{float}      % возможность позиционировать объекты в нужном месте
+\renewcommand{\arraystretch}{1.2}  % больше расстояние между строками
 
-\usepackage{hyperref}
-\hypersetup{
-	unicode=true,           % позволяет использовать юникодные символы
-	colorlinks=true,       	% true - цветные ссылки, false - ссылки в рамках
-	urlcolor=blue,          % цвет ссылки на url
-	linkcolor=red,          % внутренние ссылки
-	citecolor=green,        % на библиографию
-	pdfnewwindow=true,      % при щелчке в pdf на ссылку откроется новый pdf
-	breaklinks              % если ссылка не умещается в одну строку, разбивать ли ее на две части?
-}
 
+%%%%%%%%%% Графики и рисование %%%%%%%%%%
+\usepackage{tikz, pgfplots}  % языки для графики
+\pgfplotsset{compat=1.16}
 
 \usepackage{todonotes} % для вставки в документ заметок о том, что осталось сделать
 % \todo{Здесь надо коэффициенты исправить}
 % \missingfigure{Здесь будет Последний день Помпеи}
 % \listoftodos --- печатает все поставленные \todo'шки
 
+
+%%%%%%%%%% Внешний вид страницы %%%%%%%%%%
+
 \usepackage[paper=a4paper, top=20mm, bottom=15mm,left=20mm,right=15mm]{geometry}
-\usepackage{indentfirst}       % установка отступа в первом абзаце главы
+\usepackage{indentfirst}    % установка отступа в первом абзаце главы
 
 \usepackage{setspace}
-\setstretch{1.15}  % Межстрочный интервал
+\setstretch{1.15}  % межстрочный интервал
 \setlength{\parskip}{4mm}   % Расстояние между абзацами
-% Разные длины в латехе https://en.wikibooks.org/wiki/LaTeX/Lengths
+% Разные длины в LaTeX: https://en.wikibooks.org/wiki/LaTeX/Lengths
 
+% свешиваем пунктуацию
+% теперь знаки пунктуации могут вылезать за правую границу текста, при этом текст выглядит ровнее
+\usepackage{microtype}
 
-\usepackage{xcolor} % Enabling mixing colors and color's call by 'svgnames'
+% \flushbottom                            % Эта команда заставляет LaTeX чуть растягивать строки, чтобы получить идеально прямоугольную страницу
+\righthyphenmin=2                       % Разрешение переноса двух и более символов
+\widowpenalty=300                     % Небольшое наказание за вдовствующую строку (одна строка абзаца на этой странице, остальное --- на следующей)
+\clubpenalty=3000                     % Приличное наказание за сиротствующую строку (омерзительно висящая одинокая строка в начале страницы)
+\tolerance=10000     % Ещё какое-то наказание.
 
-\definecolor{MyColor1}{rgb}{0.2,0.4,0.6} %mix personal color
-\newcommand{\textb}{\color{Black} \usefont{OT1}{lmss}{m}{n}}
-\newcommand{\blue}{\color{MyColor1} \usefont{OT1}{lmss}{m}{n}}
-\newcommand{\blueb}{\color{MyColor1} \usefont{OT1}{lmss}{b}{n}}
-\newcommand{\red}{\color{LightCoral} \usefont{OT1}{lmss}{m}{n}}
-\newcommand{\green}{\color{Turquoise} \usefont{OT1}{lmss}{m}{n}}
+% мои цвета https://www.artlebedev.ru/colors/
+\definecolor{titleblue}{rgb}{0.2,0.4,0.6} 
+\definecolor{blue}{rgb}{0.2,0.4,0.6} 
+\definecolor{red}{rgb}{1,0,0.2} 
+\definecolor{green}{rgb}{0,0.6,0} 
+\definecolor{purp}{rgb}{0.4,0,0.8} 
 
+% цвета из geogebra 
+\definecolor{litebrown}{rgb}{0.6,0.2,0}
+\definecolor{darkbrown}{rgb}{0.75,0.75,0.75}
+
+% Гиперссылки
+\usepackage{xcolor}   % разные цвета
+
+\usepackage{hyperref}
+\hypersetup{
+	unicode=true,           % позволяет использовать юникодные символы
+	colorlinks=true,       	% true - цветные ссылки
+	urlcolor=blue,          % цвет ссылки на url
+	linkcolor=red,          % внутренние ссылки
+	citecolor=green,        % на библиографию
+	breaklinks              % если ссылка не умещается в одну строку, разбивать её на две части?
+}
+
+% меняю оформление секций 
 \usepackage{titlesec}
 \usepackage{sectsty}
-%%%%%%%%%%%%%%%%%%%%%%%%
-%set section/subsections HEADINGS font and color
-\sectionfont{\color{MyColor1}}  % sets colour of sections
-\subsectionfont{\color{MyColor1}}  % sets colour of sections
 
-%set section enumerator to arabic number (see footnotes markings alternatives)
-\renewcommand\thesection{\arabic{section}.} %define sections numbering
-\renewcommand\thesubsection{\thesection\arabic{subsection}} %subsec.num.
+% меняю цвет на синий
+\sectionfont{\color{titleblue}}
+\subsectionfont{\color{titleblue}}
 
-%define new section style
-\newcommand{\mysection}{
-	\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}} 
-	{\thesection} {3pt} {} } 
-
-
-%	CAPTIONS
-\usepackage{caption}
-\usepackage{subcaption}
-%%%%%%%%%%%%%%%%%%%%%%%%
-\captionsetup[figure]{labelfont={color=Turquoise}}
-
+% выбрасываю нумерацию страниц и колонтитулы 
 \pagestyle{empty}
 
-%%%%%%%%%% Свои команды %%%%%%%%%%
-\usepackage{etoolbox}    % логические операторы для своих макросов
-
-% Все свои команды лучше всего определять не по ходу текста, как это сделано в этом документе, а в преамбуле!
-
-% Одно из применений - уничтожение какого-то куска текста!
-\newbool{answers}
-%\booltrue{answers}
-\boolfalse{answers}
-
+% синие круглые бульпоинты в списках itemize 
 \usepackage{enumitem}
-% бульпоинты в списках
-\definecolor{myblue}{rgb}{0, 0.45, 0.70}
-\newcommand*{\MyPoint}{\tikz \draw [baseline, fill=myblue,draw=blue] circle (2.5pt);}
+
+\definecolor{itemizeblue}{rgb}{0, 0.45, 0.70}
+
+\newcommand*{\MyPoint}{\tikz \draw [baseline, fill=itemizeblue, draw=blue] circle (2.5pt);}
+
 \renewcommand{\labelitemi}{\MyPoint}
 
 % расстояние в списках
@@ -109,7 +110,118 @@
 \setlist[enumerate]{parsep=0.4em,itemsep=0em,topsep=0ex}
 
 
-\begin{document}
+%%%%%%%%%% Свои команды %%%%%%%%%%
+
+% Математические операторы первой необходимости:
+\DeclareMathOperator{\sgn}{sign}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\E}{\mathop{E}}
+\DeclareMathOperator{\Med}{Med}
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator*{\plim}{plim}
+
+% команды пореже
+\newcommand{\const}{\mathrm{const}}  % const прямым начертанием
+\newcommand{\iid}{\sim i.\,i.\,d.}  % ну вы поняли...
+\newcommand{\fr}[2]{\ensuremath{^{#1}/_{#2}}}   % особая дробь
+\newcommand{\ind}[1]{\mathbbm{1}_{\{#1\}}} % Индикатор события
+\newcommand{\dx}[1]{\,\mathrm{d}#1} % для интеграла: маленький отступ и прямая d
+
+% одеваем шапки на частые штуки
+\def \hb{\hat{\beta}}
+\def \hs{\hat{s}}
+\def \hy{\hat{y}}
+\def \hY{\hat{Y}}
+\def \he{\hat{\varepsilon}}
+\def \hVar{\widehat{\Var}}
+\def \hCorr{\widehat{\Corr}}
+\def \hCov{\widehat{\Cov}}
+
+% Греческие буквы
+\def \a{\alpha}
+\def \b{\beta}
+\def \t{\tau}
+\def \dt{\delta}
+\def \e{\varepsilon}
+\def \ga{\gamma}
+\def \kp{\varkappa}
+\def \la{\lambda}
+\def \sg{\sigma}
+\def \tt{\theta}
+\def \Dt{\Delta}
+\def \La{\Lambda}
+\def \Sg{\Sigma}
+\def \Tt{\Theta}
+\def \Om{\Omega}
+\def \om{\omega}
+
+% Готика
+\def \mA{\mathcal{A}}
+\def \mB{\mathcal{B}}
+\def \mC{\mathcal{C}}
+\def \mE{\mathcal{E}}
+\def \mF{\mathcal{F}}
+\def \mH{\mathcal{H}}
+\def \mL{\mathcal{L}}
+\def \mN{\mathcal{N}}
+\def \mU{\mathcal{U}}
+\def \mV{\mathcal{V}}
+\def \mW{\mathcal{W}}
+
+% Жирные буквы
+\def \mbb{\mathbb}
+\def \RR{\mbb R}
+\def \NN{\mbb N}
+\def \ZZ{\mbb Z}
+\def \PP{\mbb{P}}
+\def \QQ{\mbb Q}
+
+
+%%%%%%%%%% Теоремы %%%%%%%%%%
+\theoremstyle{plain} % Это стиль по умолчанию.  Есть другие стили.
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{result}{Следствие}[theorem]
+% счётчик подчиняется теоремному, нумерация идёт по главам согласованно между собой
+
+% убирает курсив и что-то еще наверное делает ;)
+\theoremstyle{definition}         
+\newtheorem*{definition}{Определение}  % нумерация не идёт вообще
+
+
+%%%%%%%%%% Задачки и решения %%%%%%%%%%
+\usepackage{etoolbox}    % логические операторы для своих макросов
+\usepackage{environ}
+\newtoggle{lecture}
+
+\newcounter{probNum}%[section]  % счётчик для упражнений 
+\NewEnviron{problem}{%
+    \refstepcounter{probNum}% увеличели номер на 1 
+    {\noindent \textbf{\large \color{titleblue} Упражнение~\theprobNum}  \\ \\ \BODY}
+    {}%
+  }
+
+% Окружение, чтобы можно было убирать решения из pdf
+\NewEnviron{solution}{%
+  \iftoggle{lecture}
+    {\noindent \textbf{\large Решение:} \\ \\ \BODY}
+    {}%
+  }
+  
+% выделение по тексту важных вещей
+\newcommand{\indef}[1]{\textbf{ \color{green} #1}} 
+
+
+\begin{document} % Конец преамбулы, начало файла
+
+% Если переключить в false, все solution исчезнут из pdf
+\toggletrue{lecture}
+%\togglefalse{lecture}
+
+
 	
 \section*{Семинар 7-8 (часть 2):  Соседи, деревья, кросс-валидация}
 
