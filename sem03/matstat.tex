@@ -197,17 +197,18 @@
 \usepackage{environ}
 \newtoggle{lecture}
 
-\newcounter{probNum}%[section]  % счётчик для упражнений 
-\NewEnviron{problem}{%
-    \refstepcounter{probNum}% увеличели номер на 1 
-    {\noindent \textbf{\large \color{titleblue} Упражнение~\theprobNum}  \\ \\ \BODY}
-    {}%
-  }
+\newcounter{problem}%[section]  % счётчик для упражнений 
+
+\renewcommand{\theproblem}{\arabic{problem}}
+
+\newenvironment{problem}[1]{
+\addtocounter{problem}{1}\noindent{ \color{titleblue} \large \bfseries Упражнение~\theproblem~#1 \vspace{1ex} \newline}
+}{ }
 
 % Окружение, чтобы можно было убирать решения из pdf
 \NewEnviron{solution}{%
   \iftoggle{lecture}
-    {\noindent \textbf{\large Решение:} \\ \\ \BODY}
+    {\noindent \textbf{\large Решение:} \vspace{1ex} \newline \BODY}
     {}%
   }
   
