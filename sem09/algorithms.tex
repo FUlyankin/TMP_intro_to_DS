@@ -215,21 +215,21 @@
 % выделение по тексту важных вещей
 \newcommand{\indef}[1]{\textbf{ \color{green} #1}} 
 
+% эпиграфы
+\usepackage{epigraph}
+\setlength\epigraphwidth{.4\textwidth}
+\setlength\epigraphrule{0pt}
 
 \begin{document} % Конец преамбулы, начало файла
 
 % Если переключить в false, все solution исчезнут из pdf
 \toggletrue{lecture}
 %\togglefalse{lecture}
-% эпиграфы
-\usepackage{epigraph}
-\setlength\epigraphwidth{.4\textwidth}
-\setlength\epigraphrule{0pt}
 
 
 \section*{Семинар 9: алгоритмы классификации}
 
-\epigraph{Безумная цитата}{автор этой цитаты}
+\epigraph{Все люди делятся на два типа.}{Джейсон Стэтхем}
 
 На прошлом семинаре мы говорили про то, какими бывают метрики классификации. Обычно их используют, чтобы сравнивать между собой различные алгоритмы для классификации. Ни одного такого алгоритма мы пока ещё не знаем. Пришло время исправить это досадное упущение. 
 
@@ -488,6 +488,7 @@
 \end{problem}
 
 \begin{solution}
-Либо мы сначала дробим по $x$, потом по $z$. Либо наоборот. 	\end{solution}
+Либо мы сначала дробим по $x$, потом по $z$. Либо наоборот. 	
+\end{solution}
 
 \end{document}
